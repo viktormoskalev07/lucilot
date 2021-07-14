@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html  lang="en">
+    <head>
+        <title>Data Logging</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>Data Logging</h1>
+            </div>
+
+            <div class="box-topic">
+                <div class="box-16">
+                    <h2 class="w100">Settings</h2>
+                    <p><label for="logInt">Log Interval</label>
+                        <input id="logInt" type="number" min="1" step="1" max="72000">
+                    </p>
+
+                    <p><label for="logCap">Capacity</label>
+                        <input id="logCap" type="number" min="1" step="1" max="1000">
+                    </p>
+
+                    <p><label for="logSep">Separator</label>
+                        <input id="logSep" type="text" maxlength="1">
+                    </p>
+                    <p><label for="logEn">Enable</label>
+                        <input id="logEn" type="checkbox">
+                    </p>
+                </div>
+
+                <div class="box-16">
+                    <h2 class="w100">State</h2>
+                    <table>
+                        <tr>
+                            <td>Service State</td>
+                            <td><p id="logStSvc"></td>
+                        </tr>
+                        <tr>
+                            <td>Module State</td>
+                            <td><p id="logStMod"></td>
+                        </tr>
+                        <tr>
+                            <td>Reset</td>
+                            <td><p id="logStRst"></td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="button button-save" id="logBtCfg">Save</button>
+            </div>
+        
+            <div class="box-full-sub" id="log-ent">
+            </div>
+            <button class="button button-save " id="logBtVal">Save entries</button>
+        </div>
+    </body>
+</html>

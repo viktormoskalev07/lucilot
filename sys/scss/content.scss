@@ -1,0 +1,442 @@
+@import 'variables.scss';
+#content{
+    flex-grow: 1;
+}
+.container-box { 
+    border-radius: 5px;
+     box-shadow: 0 0 5px 1px rgba(138, 138, 138, 0.658);
+    font-size: 10px;
+    margin-bottom: 20px;
+    padding:10px 3px;
+    @include s{
+        font-size: 12px;
+       
+    }
+    @include sm{ 
+        font-size: 14px;
+        padding:10px 5px;
+    }
+    @include md{
+        font-size: 16px; 
+     
+    }  
+    @include xl {
+        display: flex;
+        flex-wrap: wrap;
+    }  
+}
+
+
+.button {
+    cursor: pointer;
+    @include border;
+    background-color:$background-color;
+    margin-bottom: 25px;
+     padding : 10px 30px;
+     text-align : center;
+     text-decoration : none;
+     display: block;
+     font-size : 18px;
+ }
+
+ .button:hover {
+     background-color: $hover-bcg;
+ }
+
+
+h2 {
+    margin-bottom: 10px;
+}
+
+ 
+
+.tr {
+    display: table-row;
+}
+
+.td {
+    display: table-cell;
+}
+
+form {
+    display: table;
+}
+
+p {
+    display: table-row;
+}
+
+td p {
+    display: block;
+}
+label {
+    display: table-cell;
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+input ,select {
+    display: table-cell;
+ min-height: 35px;
+ padding: 10px 5px;
+ vertical-align: middle;
+
+ margin: 5px;
+ 
+}
+
+input[type=number]{
+    text-align: right;
+}
+
+ 
+input[type=number], input[type=text] , select{
+    width: 120px;
+}
+input[type=checkbox]+input[type=number] {
+     width: 100px;
+}
+
+
+table , .table{
+    text-align: center;
+    display: table;
+    border-collapse: collapse;
+    @media (min-width:1440px) {
+        table-layout: fixed;
+    }
+    width: 100%;
+}
+tbody{
+   border:solid black;
+   border-width: 2px;
+}
+
+th,
+td {
+    text-align: center;
+
+}
+th{
+    background-color:rgb(250, 250, 250);
+}
+
+th,
+td {
+    @include bor;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+
+.box-1 , .box-12 , .box-13 , .box-14 , .box-16, .box-5050 , .box-b , .b-t{
+     overflow: auto;
+    padding: 7px;
+    margin:7px 0;
+    @include sm {
+        margin:7px 5px;
+    }
+    flex-basis: calc(50% - 10px);
+    flex-wrap: wrap;
+    @include border;
+    background-color: $background-color;
+}
+
+ .flex{
+     display: flex;
+     flex-wrap: wrap;
+ }
+
+.b-t , .topic-title , .box-13{
+    flex-basis: 100%;
+    label{
+        min-width: 77px;
+        margin-right: 5px;
+    }
+    @include sm{
+        flex-basis: 50%;
+    }
+    @include lg{
+        flex-basis: 33.3333%;
+    }
+    @include xl{
+        flex-basis: 25%;
+    }
+
+    margin: 0;
+    border-radius: 0;
+    padding: 5px 10px;
+}
+
+.topic-title{
+    padding: 10px;
+    background-color: rgb(245, 245, 245);
+}
+.value-title{
+    flex-basis: 100%;
+    background-color: rgb(245, 245, 245);
+    padding: 5px 10px;
+    @include lg{
+        flex-basis: 33.3333%;
+        padding: 10px;
+    }
+    @include xl{
+        flex-basis: 100%;
+    }
+}
+ 
+.box-1{
+    padding: 20px;
+    select{
+        width: 100%;
+        min-width: 80px;
+        margin: 10px 0;
+        font-size: 14px;
+        padding: 10px;
+    }  
+    p{
+        line-height: 2;
+    }
+}
+
+.box-topic {
+    @include border;
+    border-color: rgb(109, 109, 109);
+    overflow: hidden;
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap; 
+    margin-bottom: 15px;
+    background-color: rgb(255, 255, 255); 
+}
+
+.box-full .box-topic .button{
+    margin: 10px;
+    @include md{
+        margin: 30px;
+    }
+
+}
+
+
+
+.box-16 , .box-14 {
+  flex-basis: 100%;
+  @include lg{
+    flex-basis: calc(50% - 10px);
+    padding:10px 5px;
+    label{
+        padding-right: 5px;
+    }
+  }
+  @include xl{
+    flex-basis: calc(33% - 8px);
+  }
+  padding:10px 15px;
+ 
+}
+
+.box-16{
+    label{
+        @media (min-width: 1400px){
+            min-width: 80px;
+        }
+   
+    }
+}
+
+.box-title {
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+ 
+}
+
+.box-a {
+    overflow: auto;
+    padding: 10px;
+    margin:10px 0;
+    @include sm {
+        margin:15px 10px;
+    }
+    flex-basis: calc(50% - 20px);
+    flex-wrap: wrap;
+    @include border;
+    background-color: $background-color;
+     
+} 
+
+
+
+.box-full {
+    margin-top: 20px;
+    margin-left: 5px;
+    flex-basis: 100%;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.box-full-sub {
+    flex-basis: 100%;
+    padding: 0;
+    margin: 0;
+    padding-top: 10px;
+  margin-bottom: 10px;
+}
+
+.box-2 {
+    flex-basis: 50%;
+    flex-wrap: wrap;
+    padding: 0px;
+    border-style: dashed;
+}
+
+
+.digState {
+    width: 20px;
+    height: 20px;
+    margin: 10px auto;
+    @include sm{
+    width: 40px;
+    height: 40px;
+    margin: 20px auto;
+    }
+    border-radius: 20px;
+
+    
+}
+
+.slot-value{  
+    margin: 10px ;
+    background-color: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @include border;
+    border-color: rgb(109, 109, 109); 
+    flex-basis:100%;
+    
+    @include lg{
+        flex-basis:calc(50% - 22px) ;
+    }
+    @include xl{
+        flex-basis:calc(33.33% - 22px) ;
+    } 
+     button{
+        width: 100%;
+    }
+    &__title{
+        padding: 5px 10px;
+        background-color: #f5f5f5;
+        width: 100%;
+    }
+    &__item{  
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-basis:calc(50% - 32px) ;
+        text-align: left;
+        margin:20px 10px;
+        padding:0;
+        label{
+            padding: 0;
+        }
+        &:nth-child(2n+1){
+            text-align: right;
+             justify-content: flex-end;
+        }
+    }
+}
+
+
+.button-save{
+    &-container{
+        width: 100%;
+    }
+    margin-top: auto; 
+    font-weight: 600;
+    margin-left: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    align-self: center;
+    border-color: rgb(0, 0, 0);
+    border-radius: 5px; 
+    align-self: flex-end;
+}
+
+.slot-value-container{
+
+.box-topic{
+    overflow: hidden;
+    padding: 5px;
+    @include sm{
+        padding: 20px 10px;
+    } 
+        align-items: center;
+        max-width: 400px;
+
+    p{
+        display: flex;
+    }
+    button{
+        width: 100%;
+        font-size: 14px;
+        @include sm{
+            width: auto;
+        }
+    }
+}
+ 
+}
+
+.box-3-settings{
+    .value-title{
+        @include sm{
+            flex-basis: 50%;
+        }
+        @include lg{
+            flex-basis:100%;
+        }
+         
+    }
+}
+
+.button-container{ 
+    flex-basis: 100%;
+    text-align: right;
+}
+ 
+.diagnostic{
+    &__container{ 
+       flex-basis: 100%; 
+        @include md{
+        padding: 20px;
+        margin: 10px;
+        @include border;
+        }
+     
+    }
+    &__name{ 
+        &-container{
+            flex-basis: 100%; 
+            font-size: 16px;
+            margin: 15px;
+            span{
+                @include md{
+                    font-size: 22px; 
+                } 
+            }
+        }
+    }
+    &__text{
+        padding: 10px;
+        display: block;
+        width: 100%;
+        min-height: 600px;
+        white-space: pre;
+        resize: none; 
+        @include border;
+    } 
+}

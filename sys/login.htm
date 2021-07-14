@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LucidIoT Login</title>    
+    
+    <style>
+        *{
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          background-color:#f8f9fa;
+          color:#555555;
+          margin:0;
+          
+          }
+
+        form {
+          border: 3px solid #f1f1f1;
+        }
+
+        input[type=text], input[type=password]
+        {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid #dadce0;
+          box-sizing: border-box;
+        }
+
+        button {
+          background-color: #4CAF50;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+        }
+
+        button:hover {
+          opacity: 0.8;
+        }
+
+        .container {
+          margin: auto;
+          padding: 1em;
+          width: 300px;
+          border: 5px #dadce0 solid;
+          border-radius: 1em;
+       
+        }
+
+        .header h1{
+          text-align: center;
+          padding: 20px;
+        }
+
+        span.psw {
+          float: right;
+          padding-top: 16px;
+        }
+
+        /* Change styles for span and cancel button on extra small screens */
+        @media screen and (max-width: 300px) {
+          span.psw {
+            display: block;
+            float: none;
+          }
+          .cancelbtn {
+            width: 100%;
+          }
+        }
+    </style>
+        <style>
+          .statusline{
+            background-color: rgb(255, 236, 220);
+            min-height: 50px;
+            border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 250px;
+            margin: 10px auto;
+            padding:10px 30px ;
+            pointer-events: none;
+            opacity: 0;
+            transition: 0.3s;
+          }
+        </style>
+  </head>
+ 
+  <body>
+     
+  <script>
+
+    function eGetById(id) {
+      return document.getElementById(id);
+    }
+
+    function hS(id, h) {
+      eGetById(id).innerHTML = h;
+    }
+
+    function tcS(id, c) {
+      eGetById(id).style.color = c;
+    }
+
+    function resClr(id)	{
+      tcS(id, "initial")
+      hS(id, "");
+    }
+
+    function resErr(id, v) {
+      tcS(id, "red");
+      hS(id, "ERROR: " + v);
+    }
+
+    function resExcp(id, v) {
+      tcS(id, "red");
+      hS(id, "EXCEPT: " +v);
+    }
+
+
+    function sReq(j) {
+      var xhttp = new XMLHttpRequest();
+      var url = '/cmd';
+      var params ='value=';
+      var request = JSON.stringify(j);
+
+      xhttp.open("POST", url, true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      params += request;
+      xhttp.send(params);
+      return xhttp;
+    }
+
+    async function r(req) {
+      return new Promise((res, rej) => {
+        let xhttp = sReq(req);
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4) {
+            if (this.status == 200)	{
+              try {
+                let rsp = JSON.parse(this.responseText);
+                  res(rsp);
+              } catch (e) {
+                console.log(this.responseText);
+                rej("EXCEPT: " + e);
+              }
+            } else {
+              rej("HTTP Status: " + this.status);
+            }
+          }
+        }
+      });
+    }
+
+    async function modeCheck() {
+      var rq = {Cmd:"SysIntern", Opt:"OpModeGet"};
+
+      return new Promise(async(res, rej) => {
+        await r(rq).then((j) => {
+          if (j.Status == "OK") {
+              res(j.Mode);
+          } else {
+              rej(j.Status);
+          }
+        }).catch((m) => {
+          rej(m);
+        }) 
+      });
+    }
+
+    async function loginRequest() {
+    
+      return new Promise(async(res, rej) => {
+        
+        var rq = {Cmd:"AccLogin",
+        User:document.getElementById("user").value.replace(/\s/g, ''),
+        Pass:document.getElementById("pass").value.replace(/\s/g, '')};
+        resClr("loginRes");
+
+        await r(rq).then((rsp) => {
+          if (rsp.Status == "OK") {
+            res();
+          } else {
+            rej("Login incorrect, " + rsp.Status);
+          }
+        }).catch((e) => {
+
+          rej("Exception : "+ e); 
+        })
+      });
+    }
+
+    function loginOk() {
+      sessionStorage.removeItem("ld");
+      sessionStorage.setItem("user", document.getElementById("user").value);
+      window.location.href = 'main.htm';
+    }
+
+    async function lIn(e) {
+      if (e.keyCode == 13) {
+        e.preventDefault();
+        await loginRequest().then(() => {
+            loginOk();
+        }).catch((m) => {
+          newAlert(m);
+        })
+      }
+    }
+
+    async function loginRst() {
+      return new Promise(async(res, rej) => {
+        var rq = {Cmd:"SysReset", FctyDflt:true};
+        await r(rq).then((rsp) => {
+          if (rsp.Status == "OK") {
+            res();
+          } else {
+            rej(rq.Cmd + ', ' + rsp.Status);
+          }
+        }).catch((m) => {
+          rej(rq.Cmd + ', ' + m);
+        })
+      });
+    }
+
+    async function loginInit() {
+      eGetById("user").focus();
+
+      eGetById("logBt").addEventListener("click", async() => {
+        sessionStorage.setItem("active_button_id", "")
+        await loginRequest().then(() => {
+          loginOk();
+        }).catch((m) => {
+          newAlert(m);
+        })
+      });
+
+      eGetById("rstBt").addEventListener("click", async() => {
+        if (confirm("Do you really want to restore factory default configuration?")) {
+          await loginRst().then(() => {
+            
+            newAlert("Factory defaults restored");
+          }).catch((m) => {
+            newAlert(m);
+          })
+        }
+      });
+
+      eGetById("clog").addEventListener("keyup", lIn);
+
+      await modeCheck().then((m) => {
+        sessionStorage.setItem("Mode", m);
+        if (m)
+          eGetById("rstBt").style.display = "block";
+          
+      }).catch((m) => {
+        sessionStorage.setItem("Mode", 0);
+        newAlert(m);
+      })
+    }
+
+  </script>
+
+    <div class="container" id="clog">
+        <div class="header">
+          <h1>LucidIoT Login</h1>
+        </div>
+
+      <label for="user"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" id="user" name="user" required>
+
+      <label for="pass"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" id="pass" name="pass" required>
+            
+      <button id="logBt">Login</button>
+      <button id="rstBt" style="display:none">Factory Reset</button>
+      <p id="loginRes"></p>
+
+    </div>
+     <script>
+ 
+    function newAlert(m){
+        if(m){
+          let a = document.createElement('a');
+          a.innerHTML=m;
+          a.classList.add('statusline');
+          a.style.opacity=1;
+          document.body.appendChild(a);
+         setTimeout(function() {
+           a.remove();
+         } ,2000);
+        }  else {console.log('empty error');}
+       }
+       window.onload = function() {
+         loginInit();
+       }
+     </script>
+  </body>
+
+</html>

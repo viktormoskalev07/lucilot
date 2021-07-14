@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html  lang="en">
+    <head>
+        <title>LucidIoT Network</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-title">
+                <h1>Network</h1>
+            </div>
+
+            <div class="box-a">
+                <h2>Protocol Settings</h2>
+                <p><label for="netIp">IPv4 Address</label>
+                    <input id="netIp" type="text" minlength="7" maxlength="15" size="15" placeholder="xxx.xxx.xxx.xxx" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+                </p>
+                <p><label for="netGw">IPv4 Gateway</label>
+                    <input id="netGw" type="text" minlength="7" maxlength="15" size="15" placeholder="xxx.xxx.xxx.xxx" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+                </p>
+                <p><label for="netSn">IPv4 Subnet</label>
+                    <input id="netSn" type="text" minlength="7" maxlength="15" size="15" placeholder="xxx.xxx.xxx.xxx" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+                </p>
+                <p><label for="netDns">IPv4 DNS:</label>
+                    <input id="netDns" type="text" minlength="7" maxlength="15" size="15" placeholder="xxx.xxx.xxx.xxx" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
+                </p>
+                <p><label for="netHost">Host Name:</label>
+                    <input id="netHost" type="text" maxlength="15" size="15">
+                </p>
+                <p><label for="netDhTmo">DHCP Timeout</label>
+                    <input id="netDhTmo" type="number"   min=10 step=1 max=100>
+                </p>
+            </div>
+
+            <div class="box-a">
+                <h2>Options</h2>
+                <div class="box-5050">
+                    <p><label for="netEnDhcp">Enable DHCP</label>
+                        <input id="netEnDhcp" type="checkbox">
+                    </p>
+                    <p><label for="netEnDns">Enable DNS</label>
+                        <input id="netEnDns" type="checkbox">
+                    </p>
+                    <p><label for="netEnMDNS">Enable MDNS</label>
+                        <input id="netEnMDNS" type="checkbox">
+                    </p>
+                    <p><label for="netEnNB">Enable NetBIOS</label>
+                        <input id="netEnNB" type="checkbox">
+                    </p>
+                    <p><label for="netEnIPv6">Enable IPv6</label>
+                        <input id="netEnIPv6" type="checkbox">
+                    </p>
+
+                </div>
+                <div class="box-b">
+                    <p><label for="netEn10hdx">Enable 10Mb HDX</label>
+                        <input id="netEn10hdx" type="checkbox">
+                    </p>
+                    <p><label for="netEn10fdx">Enable 10Mb FDX</label>
+                        <input id="netEn10fdx" type="checkbox">
+                    </p>
+                    <p><label for="netEn100hdx">Enable 10Mb HDX</label>
+                        <input id="netEn100hdx" type="checkbox">
+                    </p>
+                    <p><label for="netEn100fdx">Enable 10Mb FDX</label>
+                        <input id="netEn100fdx" type="checkbox">
+                    </p>
+                </div>
+            </div>
+
+       <div class="button-save-container">
+        <button class="button button-save" id="netBtCfg">Save</button>
+       </div>
+           
+
+            <div class="box-a">
+                <h2>Service State</h2>
+                <table>
+                    <tr>
+                        <td>Service State</td>
+                        <td><p id="netSvc"></td>
+                    </tr>
+                    <tr>
+                        <td>Module State</td>
+                        <td><p id="netMod"></td>
+                    </tr>
+                    <tr>
+                        <td>Reset</td>
+                        <td><p id="netRst"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="box-a">
+                <h2>Network Info</h2>
+                <table>
+                    <tr>
+                        <td>
+                            MAC Address
+                        </td>
+                        <td>
+                            <p id="netMac"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Active Link
+                        </td>
+                        <td>
+                            <p id="netLink"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            IPv4
+                        </td>
+                        <td>
+                            <p id="netIp4St"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            IPv6
+                        </td>
+                        <td>
+                            <p id="netIp6St"></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="box-a">
+                <h2>Transmit Statistic</h2>
+                <table>
+                    <tr><td>Frame OK</td><td><p id="nSTxFrmOk"></p></td></tr>
+                    <tr><td>Broadcast OK</td><td><p id="nSTxBcOk"></p></td></tr>
+                    <tr><td>Multicast OK</td><td><p id="nSTxMcOk"></p></td></tr>
+                    <tr><td>Underrun Err</td><td><p id="nSTxUErr"></p></td></tr>
+                    <tr><td>Coll Err</td><td><p id="nSTxCErr"></p></td></tr>
+                    <tr><td>Other Err</td><td><p id="nSTxOErr"></p></td></tr>
+                </table>
+            </div>
+
+            <div class="box-a">
+                <h2>Receive Statistic</h2>
+                <table>
+                    <tr><td>Frame OK</td><td><p id="nSRxFrmOk"></p></td></tr>
+                    <tr><td>Broadcast OK</td><td><p id="nSRxBcOk"></p></td></tr>
+                    <tr><td>Multicast OK</td><td><p id="nSRxMcOk"></p></td></tr>
+                    <tr><td>Overflow Err</td><td><p id="nSRxOvfErr"></p></td></tr>
+                    <tr><td>Jabber Err</td><td><p id="nSRxJErr"></p></td></tr>
+                    <tr><td>Symbol Err</td><td><p id="nSRxSErr"></p></td></tr>
+                    <tr><td>FCS Err</td><td><p id="nSRxFcsErr"></p></td></tr>
+                    <tr><td>Field Err</td><td><p id="nSRxFldErr"></p></td></tr>
+                    <tr><td>CRC Err</td><td><p id="nSRxCErr"></p></td></tr>
+                    <tr><td>Other Err</td><td><p id="nSRxOthErr"></p></td></tr>
+                </table>
+            </div>
+        </div>
+        
+    </body>
+</html>

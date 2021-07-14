@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>LucidIoT System Overview</title>
+    </head>
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>System Overview</h1>
+            </div>
+
+            <div class="box-a">
+                <h2>Memory</h2>
+                <table>
+                    <tr>
+                        <td>Uptime [sec]</td>
+                        <td><p id="sysUp"></p></td>
+                    </tr>
+                    <tr>
+                        <td>Mem Free [kB]</td>
+                        <td><p id="sysMf"></p></td>
+                    </tr>
+                    <tr>
+                        <td>Mem Free Min [kB]</td>
+                        <td><p id="sysMm"></p></td>
+                    </tr>
+                    <tr>
+                        <td>Mem Error</td>
+                        <td><p id="sysMe"></p></td>
+                    </tr>
+                    <tr>
+                        <td>Intern Mem Total [kB]</td>
+                        <td><p id="sysCt"></p></td>
+                    </tr>
+                    <tr>
+                        <td>Intern Mem Free [kB]</td>
+                        <td><p id="sysCf"></p></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="box-a">
+                <h2>System Identification</h2>
+                <table>
+                    <tr>
+                        <td>Serial Number</td>
+                        <td><p id="sysSnr"></p></td>
+                    </tr>
+                    <tr>
+                        <td>Hardware Revision</td>
+                        <td><p id="sysHwr"></p></td>
+                    </tr>
+                    <tr>
+                        <td>Firmware Revision</td>
+                        <td><p id="sysFwr"></p></td>
+                    </tr>
+                </table>
+
+                <div class="box-b">
+                    <h2>Slot 0</h2>
+                    <table>
+                        <tr>
+                            <td>Class</td>
+                            <td><p id="sysCl0"></p></td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td><p id="sysTy0"></p></td>
+                        </tr>
+                        <tr>
+                            <td>Revision</td>
+                            <td><p id="sysRv0"></p></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="box-b">
+                    <h2>Slot 1</h2>
+                    <table>
+                        <tr>
+                            <td>Class</td>
+                            <td><p id="sysCl1"></p></td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td><p id="sysTy1"></p></td>
+                        </tr>
+                        <tr>
+                            <td>Revision</td>
+                            <td><p id="sysRv1"></p></td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="box-a">
+                <h2>Protocol Stack Memory</h2>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Available</th>
+                        <th>Used</th>
+                        <th>Max</th>
+                        <th>Error</th>
+                        <th>Illegal</th>
+                    </tr>
+                    <tr>
+                        <th>Buffer</th>
+                        <td><p id="tB"></p></td>
+                        <td><p id="uB"></p></td>
+                        <td><p id="mB"></p></td>
+                        <td><p id="eB"></p></td>
+                        <td><p id="iB"></p></td>
+                    </tr>
+                    <tr>
+                        <th>Pool</th>
+                        <td><p id="tP"></p></td>
+                        <td><p id="uP"></p></td>
+                        <td><p id="mP"></p></td>
+                        <td><p id="eP"></p></td>
+                        <td><p id="iP"></p></td>
+                    </tr>
+                    <tr>
+                        <th>Timer</th>
+                        <td><p id="tT"></p></td>
+                        <td><p id="uT"></p></td>
+                        <td><p id="mT"></p></td>
+                        <td><p id="eT"></p></td>
+                        <td><p id="iT"></p></td>
+                    </tr>
+                    <tr>
+                        <th>TCP Msg</th>
+                        <td><p id="tTM"></p></td>
+                        <td><p id="uTM"></p></td>
+                        <td><p id="mTM"></p></td>
+                        <td><p id="eTM"></p></td>
+                        <td><p id="iTM"></p></td>
+                    </tr>
+                    <tr>
+                        <th>TCP PCB</th>
+                        <td><p id="tTP"></p></td>
+                        <td><p id="uTP"></p></td>
+                        <td><p id="mTP"></p></td>
+                        <td><p id="eTP"></p></td>
+                        <td><p id="iTP"></p></td>
+                    <tr>
+                        <th>TCP Listen PCB</th>
+                        <td><p id="tTPL"></p></td>
+                        <td><p id="uTPL"></p></td>
+                        <td><p id="mTPL"></p></td>
+                        <td><p id="eTPL"></p></td>
+                        <td><p id="iTPL"></p></td>
+                    </tr>
+                    <tr>
+                        <th>Alt TCP PCB</th>
+                        <td><p id="tATP"></p></td>
+                        <td><p id="uATP"></p></td>
+                        <td><p id="mATP"></p></td>
+                        <td><p id="eATP"></p></td>
+                        <td><p id="iATP"></p></td>
+                    </tr>
+                    <tr>
+                        <th>UDP PCB</th>
+                        <td><p id="tUP"></p></td>
+                        <td><p id="uUP"></p></td>
+                        <td><p id="mUP"></p></td>
+                        <td><p id="eUP"></p></td>
+                        <td><p id="iUP"></p></td>
+                    </tr>
+                    <tr>
+                        <th>Netconn Buffer </th>
+                        <td><p id="tNB"></p></td>
+                        <td><p id="uNB"></p></td>
+                        <td><p id="mNB"></p></td>
+                        <td><p id="eNB"></p></td>
+                        <td><p id="iNB"></p></td>
+                    </tr>
+                    <tr>
+                        <th>Netconn</th>
+                        <td><p id="tN"></p></td>
+                        <td><p id="uN"></p></td>
+                        <td><p id="mN"></p></td>
+                        <td><p id="eN"></p></td>
+                        <td><p id="iN"></p></td>
+                    </tr>
+                    <tr>
+                        <th>TCP Segment</th>
+                        <td><p id="tTS"></p></td>
+                        <td><p id="uTS"></p></td>
+                        <td><p id="mTS"></p></td>
+                        <td><p id="eTS"></p></td>
+                        <td><p id="iTS"></p></td>
+                    </tr>
+                    <tr>
+                        <th>Fragment</th>
+                        <td><p id="tF"></p></td>
+                        <td><p id="uF"></p></td>
+                        <td><p id="mF"></p></td>
+                        <td><p id="eF"></p></td>
+                        <td><p id="iF"></p></td>
+                    </tr>
+                    <tr>
+                        <th>IGMP</th>
+                        <td><p id="tI"></p></td>
+                        <td><p id="uI"></p></td>
+                        <td><p id="mI"></p></td>
+                        <td><p id="eI"></p></td>
+                        <td><p id="iI"></p></td>
+                    </tr> 
+                    <tr>
+                        <th>Reasseble</th>
+                        <td><p id="tR"></p></td>
+                        <td><p id="uR"></p></td>
+                        <td><p id="mR"></p></td>
+                        <td><p id="eR"></p></td>
+                        <td><p id="iR"></p></td>
+                    </tr> 
+
+                </table>
+            </div>
+
+            <div class="box-a">
+            <h2>Service and Module State</h2>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Service State</th>
+                    <th>Module State</th>
+                    <th>Reset</th>
+                </tr>
+                <tr>
+                    <th>Network</th>
+                    <td><p id="netSvc"></p></td>
+                    <td><p id="netMod"></p></td>
+                    <td><p id="netRst"></p></td>
+                </tr>
+                <tr>
+                    <th>Clock</th>
+                    <td><p id="clkSvc"></p></td>
+                    <td><p id="clkMod"></p></td>
+                    <td><p id="clkRst"></p></td>
+                </tr>
+                <tr>
+                    <th>Command</th>
+                    <td><p id="cmdSvc"></p></td>
+                    <td><p id="cmdMod"></p></td>
+                    <td><p id="cmdRst"></p></td>
+                </tr>
+                <tr>
+                    <th>File</th>
+                    <td><p id="fileSvc"></p></td>
+                    <td><p id="fileMod"></p></td>
+                    <td><p id="fileRst"></p></td>
+                </tr>
+                <tr>
+                    <th>Data Log</th>
+                    <td><p id="logSvc"></p></td>
+                    <td><p id="logMod"></p></td>
+                    <td><p id="logRst"></p></td>
+                </tr>
+                <tr>
+                    <th>Sys Log</th>
+                    <td><p id="slogSvc"></p></td>
+                    <td><p id="slogMod"></p></td>
+                    <td><p id="slogRst"></p></td>
+                </tr>
+                <tr>
+                    <th>JSON</th>
+                    <td><p id="jsonSvc"></p></td>
+                    <td><p id="jsonMod"></p></td>
+                    <td><p id="jsonRst"></p></td>
+                </tr>
+                <tr>
+                    <th>Frame</th>
+                    <td><p id="frmSvc"></p></td>
+                    <td><p id="frmMod"></p></td>
+                    <td><p id="frmRst"></p></td>
+                </tr>                
+                <tr>
+                    <th>FTP Server</th>
+                    <td><p id="ftpSvc"></p></td>
+                    <td><p id="ftpMod"></p></td>
+                    <td><p id="ftpRst"></p></td>
+                </tr>
+                <tr>
+                    <th>HTTP Server</th>
+                    <td><p id="httpSvc"></p></td>
+                    <td><p id="httpMod"></p></td>
+                    <td><p id="httpRst"></p></td>
+                </tr>
+                <tr>
+                    <th>MQTT Client</th>
+                    <td><p id="mqttSvc"></p></td>
+                    <td><p id="mqttMod"></p></td>
+                    <td><p id="mqttRst"></p></td>
+                </tr>
+                <tr>
+                    <th>Modbus/TCP Server</th>
+                    <td><p id="mbSvc"></p></td>
+                    <td><p id="mbMod"></p></td>
+                    <td><p id="mbRst"></p></td>
+                </tr>
+            </table>
+            </div>
+        </div>
+    </body>
+</html>

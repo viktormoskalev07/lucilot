@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>LucidIoT FTP Server</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>FTP Server</h1>
+            </div>
+
+            <div class="box-1">
+                <h2>Connection</h2>
+                <p><label for="ftpPort">Port</label>
+                    <input id="ftpPort" type="number"  min=1 step=1 max=65535>
+                </p>
+                <p><label for="ftpEn">Enable FTP</label>
+                    <input id="ftpEn" type="checkbox">
+                </p>
+                <p><label for="ftpIPv4">Enable IPv4</label>
+                    <input id="ftpIPv4" type="checkbox">
+                </p>
+                <p><label for="ftpIPv6">Enable IPv6</label>
+                    <input id="ftpIPv6" type="checkbox">
+                </p>
+                <p><label for="ftpMode">Mode</label>
+                    <select id="ftpMode">
+                        <option>Standard</option>
+                        <option>Explicit</option>
+                        <option>Implicit</option>
+                    </select>
+            </div>
+
+            <div class="box-1">
+                <h2>Security</h2>
+                <p><label for="ftpAuth">Auth Mode</label>
+                <select id="ftpAuth">
+                    <option>Disable</option>
+                    <option>Server</option>
+                </select>
+                </p>
+                <p><label for="ftpCrtId">Certificate ID</label>
+                    <input id="ftpCrtEn" type="checkbox">
+                    <input id="ftpCrtId" type="number">
+                </p>
+                <p><label for="ftpCaId">CA ID</label>
+                    <input id="ftpCaEn" type="checkbox">
+                    <input id="ftpCaId" type="number">
+                </p>
+                <p><label for="ftpPkId">Private Key ID</label>
+                    <input id="ftpPkEn" type="checkbox">
+                    <input id="ftpPkId" type="number">
+                </p>
+            </div>
+
+            <div class="box-1">
+                <h2>State</h2>
+                <table>
+                    <tr>
+                        <td>Service State</td>
+                        <td><p id="ftpStSvc"></td>
+                    </tr>
+                    <tr>
+                        <td>Module State</td>
+                        <td><p id="ftpStMod"></td>
+                    </tr>
+                    <tr>
+                        <td>Reset</td>
+                        <td><p id="ftpStRst"></td>
+                    </tr>
+                </table>
+            </div>
+                   <button class="button-save button" id="ftpBtCfg">Save</button>
+        </div>
+
+ 
+    </body>
+    </html>
+    
+    

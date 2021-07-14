@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>LucidIoT Accounts</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>User Accounts</h1>
+            </div>
+            <div class="box-1 flex">
+                <div class="w-100">
+                    <label><h2>  Active Accounts  </h2>
+                        <select id="accList" size="5">
+                        </select>
+                    </label>
+    
+                </div>
+            
+                <button class="button  button-save" id="accBtDel">Delete Account</button>
+            </div>
+            <div class="box-1">
+                <h2>Details</h2>
+                <p>
+                    <label>User Name</label>
+                    <label id="accN"></label>
+                </p>
+                <p>
+                    <label for="accP">Password</label>
+                    <input id="accP" type="text">
+                </p>
+                <p>
+                    <label for="accCP">Copy Password</label>
+                    <input id="accCP" type="text">
+                </p>
+                <div class="box-b">
+                    <h2>Access Rights</h2>
+                    <p><label for="accREn">Enable</label>
+                    <input id="accREn" type="checkbox"></p>
+                    <p><label for="accRFtp">FTP</label>
+                    <input id="accRFtp" type="checkbox"></p>
+                    <p><label for="accRIo">IO</label>
+                    <input id="accRIo" type="checkbox"></p>                 
+                    <p><label for="accRIoCfg">IO Config</label>
+                    <input id="accRIoCfg" type="checkbox"></p>
+                    <p><label for="accRAdmin">Admin</label>
+                    <input id="accRAdmin" type="checkbox"></p>    
+                </div>
+                <button class=" button-save button" id="accBtUpd">Update Account</button>
+            </div>
+
+            <div class="box-1">
+                <h2>Create Account</h2>
+                <p>
+                    <label for="accCN">User Name</label>
+                    <input id="accCN" type="text">
+                </p>
+                <button class=" button-save button" id="accBtCreate">Create Account</button>
+            </div>
+        </div>
+    </body>
+</html>
+    
+    

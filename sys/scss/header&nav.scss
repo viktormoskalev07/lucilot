@@ -1,0 +1,224 @@
+@import 'variables.scss';
+
+
+* { 
+    margin: 0;
+    padding: 0; 
+    box-sizing: border-box;
+   
+    }
+    html{
+        scroll-behavior: smooth;
+    }
+    body { 
+        font-family: Arial, Helvetica, sans-serif;
+        background-color:$back-color;
+        color:$text-color;
+        margin:0;
+        overflow-y:scroll ;		 
+        }
+
+
+    .container {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 1440px;
+        padding: 0 15px;
+    }
+
+    header{
+        position: relative;
+        background-color: $background-color;
+        @include border;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        padding: 0 20px;
+        z-index: 2;
+        margin-bottom: 20px;
+    }
+ 
+    .w-100{
+        width: 100%;
+    }
+    .main-header {
+        width: 100%;
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        font-size: 35px;
+        color:$text-color;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        justify-content: space-between;
+        width: 100%;
+            h2{
+                font-size: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-grow: 1;
+                text-align: center;
+                @include s{
+                    font-size: 1.4rem;
+                }
+                @include sm{
+                    font-size: 2rem;
+                }
+            }
+    }
+    .main-nav{
+        transition: 0.3s;
+        transform: translateX(-100%);
+        width: 100%;
+      
+    }
+    .session{
+     margin: 20px;
+    }
+    nav {
+        @include border;
+        pointer-events: none;
+     background: rgb(255, 255, 255);
+        padding: 16px;
+    }
+ 
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        width: 100%;
+        @media(min-width:480px){
+            display: flex;
+            flex-wrap: wrap;
+        }
+  
+    }
+
+    nav li {
+        font-weight: 500;
+        pointer-events: all;
+        transition:0.3s;
+        @media(min-width:480px){
+            width: calc(50% - 10px);
+        }
+         margin: 5px;
+        padding: 10px;
+        @include border;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+ 
+
+    nav li:hover {
+        background-color: $hover-bcg;
+    }
+    nav li:active {
+        background-color:darken($hover-bcg,20%);
+
+    }
+
+    .top-item {
+        border-bottom: black solid;
+    }
+
+    .main-icon {
+        text-align: center;
+        padding: 20px;
+    }
+
+ .main-nav   .is-active{
+     font-weight: 600;
+       background-color: $active-bcg;
+       color:$active-color;
+ }
+.main-nav{
+    position: absolute;
+    left:0;
+
+}
+.main-logo{
+width: 120px;
+    img{
+        width: 100%;
+    }
+}
+.nav-btn{
+    background-color:$background-color;
+    height: 40px;
+    width: 40px;
+    position: relative;
+ 
+    &__item{
+        transition:    0.3s;
+            height: 3px;
+            width: 100%;
+            background-color: $text-color;
+            margin-top: calc(25% - 1.5px) ;
+    }
+}
+
+.nav-open{
+ 
+    .main-nav{
+        z-index: 1;
+        transform: none;
+    }
+ 
+    .nav-btn__item:nth-child(1){
+         transform:translateY(11px)  rotate(45deg) ; 
+       
+    } 
+    .nav-btn__item:nth-child(3){
+         transform:translateY(-11px)  rotate(-45deg); 
+    } 
+    .nav-btn__item:nth-child(2){
+         transform: scale(0); 
+         opacity: 0;
+    } 
+    .nav__placeholder{
+        background-color: rgba(0, 0, 0, 0.589);
+        position: fixed;
+        top: 0;
+   height: 100%;
+        left: 0;
+        right: 0;
+         transition: 0.1s;
+        z-index: 0;
+    }
+}
+
+@include md{
+    .nav__placeholder{
+        display: none;
+    }
+    .main{
+        display: flex;
+
+    }
+    .main-nav{
+        flex-shrink: 0;
+        position: static;
+        transform: none;
+        width: 250px;
+
+        li{
+            width: 100%;
+        }
+    }
+    .nav{
+        padding: 5px;
+        &-btn{
+            opacity: 0;
+        }
+    }
+        @include googleStyleNav;
+        @include headerNoMarginStyle;
+
+
+}
+
+ 
+ 

@@ -1,0 +1,75 @@
+<!DOCTYPE html >
+<html lang="en">
+    <head>
+    <title>LucidIoT HTTP Server</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>HTTP Server</h1>
+            </div>
+
+            <div class="box-1">
+                <h2>HTTP Settings</h2>
+                <p><label for="httpPort">Port</label>
+                    <input id="httpPort" type="number"  min=1 step=1 max=65535>
+                </p>
+                <p><label for="httpEn">Enable HTTP</label>
+                    <input id="httpEn" type="checkbox">
+                </p>
+                <p><label for="httpIPv4">Enable IPv4</label>
+                    <input id="httpIPv4" type="checkbox">
+                </p>
+                <p><label for="httpIPv6">Enable IPv6</label>
+                    <input id="httpIPv6" type="checkbox">
+                </p>
+            </div>
+
+            <div class="box-1">
+                <h2>Security</h2>
+                <p><label for="httpAuth">Auth Mode</label>
+                <select id="httpAuth">
+                    <option>Disable</option>
+                    <option>Server</option>
+                </select>
+                </p>
+                <p><label for="httpCrtId">Certificate ID</label>
+                    <input id="httpCrtEn" type="checkbox">
+                    <input id="httpCrtId" type="number">
+                </p>
+                <p><label for="httpCaId">CA ID</label>
+                    <input id="httpCaEn" type="checkbox">
+                    <input id="httpCaId" type="number">
+                </p>
+                <p><label for="httpPkId">Private Key ID</label>
+                    <input id="httpPkEn" type="checkbox">
+                    <input id="httpPkId" type="number">
+                </p>
+            </div>
+
+            <div class="box-1">
+                <h2>State</h2>
+                <table>
+                    <tr>
+                        <td>Service State</td>
+                        <td><p id="httpStSvc"></td>
+                    </tr>
+                    <tr>
+                        <td>Module State</td>
+                        <td><p id="httpStMod"></td>
+                    </tr>
+                    <tr>
+                        <td>Reset</td>
+                        <td><p id="httpStRst"></td>
+                    </tr>
+                </table>
+            </div>
+             <button class="button button-save" id="httpBtCfg">Save</button>
+        </div>
+
+       
+    </body>
+</html>
+    
+    

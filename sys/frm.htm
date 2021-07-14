@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Frame Interface</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>Frame Interface</h1>
+            </div>
+
+            <div class="box-1">
+                <h2>Connection</h2>
+                <p><label for="fPort">Port</label>
+                    <input id="fPort" type="number"  min=1 step=1 max=65535>
+                </p>
+                <p><label for="fEn">Enable JSON</label>
+                    <input id="fEn" type="checkbox">
+                </p>
+                <p><label for="fIPv4">Enable IPv4</label>
+                    <input id="fIPv4" type="checkbox">
+                </p>
+                <p><label for="fIPv6">Enable IPv6</label>
+                    <input id="fIPv6" type="checkbox">
+                </p>
+            </div>
+
+            <div class="box-1">
+                <h2>Security</h2>
+                <p><label for="fAuth">Auth Mode</label>
+                <select id="fAuth">
+                    <option>Disable</option>
+                    <option>Server</option>
+                </select>
+                </p>
+                <p><label for="fCrtId">Certificate ID</label>
+                    <input id="fCrtEn" type="checkbox">
+                    <input id="fCrtId" type="number">
+                </p>
+                <p><label for="fCaId">CA ID</label>
+                    <input id="fCaEn" type="checkbox">
+                    <input id="fCaId" type="number">
+                </p>
+                <p><label for="fPkId">Private Key ID</label>
+                    <input id="fPkEn" type="checkbox">
+                    <input id="fPkId" type="number">
+                </p>
+            </div>
+
+            <div class="box-1">
+                <h2>State</h2>
+                <table>
+                    <tr>
+                        <td>Service State</td>
+                        <td><p id="fStSvc"></td>
+                    </tr>
+                    <tr>
+                        <td>Module State</td>
+                        <td><p id="fStMod"></td>
+                    </tr>
+                    <tr>
+                        <td>Reset</td>
+                        <td><p id="fStRst"></td>
+                    </tr>
+                </table>
+            </div>
+            <button class=" button-save button" id="fBtCfg">Save</button>
+        </div>
+       
+    </body>
+</html>

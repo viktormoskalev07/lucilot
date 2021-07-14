@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html  lang="en">
+    <head>
+    <title>LucidIoT JSON Interface</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>JSON Interface</h1>
+            </div>
+
+            <div class="box-1">
+                <h2>Connection</h2>
+                <p><label for="jPort">Port</label>
+                    <input id="jPort" type="number"   min=1 step=1 max=65535>
+                </p>
+                <p><label for="jEn">Enable JSON</label>
+                    <input id="jEn" type="checkbox">
+                </p>
+                <p><label for="jIPv4">Enable IPv4</label>
+                    <input id="jIPv4" type="checkbox">
+                </p>
+                <p><label for="jIPv6">Enable IPv6</label>
+                    <input id="jIPv6" type="checkbox">
+                </p>
+            </div>
+
+            <div class="box-1">
+                <h2>Security</h2>
+                <p><label for="jAuth">Auth Mode</label>
+                <select id="jAuth">
+                    <option>Disable</option>
+                    <option>Server</option>
+                </select>
+                </p>
+                <p><label for="jCrtId">Certificate ID</label>
+                    <input id="jCrtEn" type="checkbox">
+                    <input id="jCrtId" type="number">
+                </p>
+                <p><label for="jCaId">CA ID</label>
+                    <input id="jCaEn" type="checkbox">
+                    <input id="jCaId" type="number">
+                </p>
+                <p><label for="jPkId">Private Key ID</label>
+                    <input id="jPkEn" type="checkbox">
+                    <input id="jPkId" type="number">
+                </p>
+            </div>
+
+            <div class="box-1">
+                <h2>State</h2>
+                <table>
+                    <tr>
+                        <td>Service State</td>
+                        <td><p id="jStSvc"></td>
+                    </tr>
+                    <tr>
+                        <td>Module State</td>
+                        <td><p id="jStMod"></td>
+                    </tr>
+                    <tr>
+                        <td>Reset</td>
+                        <td><p id="jStRst"></td>
+                    </tr>
+                </table>
+            </div>
+              <button class="button button-save " id="jBtCfg">Save</button>
+        </div>
+
+      
+    </body>
+</html>

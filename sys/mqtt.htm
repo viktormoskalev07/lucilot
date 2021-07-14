@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html  lang="en">
+    <head>
+        <title>LucidIoT MQTT Client</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>MQTT Client</h1>
+            </div> 
+
+            <div class="box-topic">
+                <div class="box-16">
+                    <h2 class="w100">Connection</h2> 
+                    <p><label for="mqSrv">Server</label>
+                        <input id="mqSrv" type="text">
+                    </p>
+    
+                    <p><label for="mqPort">Port</label>
+                        <input id="mqPort" type="number"   min=1 step=1 max=65535>
+                    </p>
+    
+                    <p><label for="mqEp">Endpoint</label>
+                        <input id="mqEp" type="text">
+                    </p> 
+                </div>
+                
+                <div class="box-16">
+                    <h2 class="w100">Options</h2>
+                    <p><label for="mqEn">Enable MQTT</label>
+                        <input id="mqEn" type="checkbox">
+                    </p>
+    
+                    <p><label for="mqIPv4">Enable IPv4</label>
+                        <input id="mqIPv4" type="checkbox">
+                    </p>
+    
+                    <p><label for="mqIPv6">Enable IPv6</label>
+                        <input id="mqIPv6" type="checkbox">
+                    </p>
+                    <p><label for="mqDns">Enable DNS</label>
+                        <input id="mqDns" type="checkbox">
+                    </p>
+    
+                    <p><label for="mqPer">Persistent</label>
+                        <input id="mqPer" type="checkbox">
+                    </p>
+                </div>
+                <div class="box-16">
+                    <h2 class="w100">LWT</h2>
+                    <p><label for="mqLwtT">LWT</label>
+                        <input id="mqLwtT" type="text">
+                    </p>
+    
+                    <p><label for="mqLwtM">LWT Message</label>
+                        <input id="mqLwtM" type="text">
+                    </p>
+    
+                    <p><label for="mqLqtQ">LWT QOS</label>
+                        <input id="mqLqtQ" type="number"   min=0 step=1 max=3>
+                    </p>
+    
+                    <p><label for="mqLwtR">LWT Retain</label>
+                        <input id="mqLwtR" type="checkbox">
+                    </p>
+                </div>
+
+                <div class="box-16">
+                    <h2 class="w100">Login</h2>
+                    <p><label for="mqUser">User</label>
+                        <input id="mqUser" type="text">
+                    </p>
+
+                    <p><label for="mqPass">Pass</label>
+                        <input id="mqPass" type="text">
+                    </p>
+
+                    <p><label for="mqCId">Client Id</label>
+                        <input id="mqCId" type="text">
+                    </p>
+
+                    <p><label for="mqKpAlv">Keep Alive</label>
+                        <input id="mqKpAlv" type="number"  min=1 step=1 max=1000>
+                    </p>
+                </div>
+
+                <div class="box-16">
+                    <h2 class="w100">Security</h2>
+                    <p><label for="mqAuth">Auth Mode</label>
+                        <select id="mqAuth">
+                            <option>Disable</option>
+                            <option>Server</option>
+                            <option>Server + Client</option>
+                        </select>
+                    </p>
+            
+                    <p><label for="mqCrtId">Certificate ID</label>
+                        <input id="mqCrtEn" type="checkbox">
+                        <input id="mqCrtId" type="number">
+                    </p>
+                    
+                    <p><label for="mqCaId">CA ID</label>
+                        <input id="mqCaEn" type="checkbox">
+                        <input id="mqCaId" type="number">
+                    </p>
+                    
+                    <p><label for="mqPkId">Private Key ID</label>
+                        <input id="mqPkEn" type="checkbox">
+                        <input id="mqPkId" type="number">
+                    </p>
+
+                    <p><label for="mqChkSrvDt">Check Server Cert Date</label>
+                        <input id="mqChkSrvDt" type="checkbox">
+                    </p>
+                </div>
+
+                <div class="box-16">
+                    <h2 class="w100">State</h2>
+                    <table>
+                        <tr>
+                            <td>Service State</td>
+                            <td><p id="mqStSvc"></td>
+                        </tr>
+                        <tr>
+                            <td>Module State</td>
+                            <td><p id="mqStMod"></td>
+                        </tr>
+                        <tr>
+                            <td>Reset</td>
+                            <td><p id="mqStRst"></td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="button button-save" id="mqttBtCfg">Save</button>
+            </div>
+        
+                    <div class="box-full-sub" id="mqtt-top">    </div>
+                <button class="button button-save" id="mqttBtTopCfg">Save Topics</button>
+             
+        </div>
+  
+    </body>
+</html>

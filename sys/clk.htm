@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LucidIoT System Date & Time</title>
+    </head>
+
+    <body>
+        <div class="container-box">
+            <div class="box-full">
+                <h1>System Date & Time</h1>
+            </div>
+
+            <div class="box-1">
+                <h2>Settings</h2>
+                <p><label for="clkDate">Date</label>
+                    <input id="clkDate" type="date">
+                </p>
+                <p><label for="clkTime">Time</label>
+                    <input id="clkTime" type="time" step="1">
+                </p>
+                <p><label for="clkDst">DST</label>
+                    <input id="clkDst" type="checkbox" value="1">
+                </p>
+                <button class="button button-save" id="clkBtSet">Save Date & Time</button>
+            </div>
+
+            <div class="box-1">
+                <div class="box-1">
+                    <h2>Time Zone</h2>
+                    <p><label for="clkTz">Time Zone</label>
+                    <select id="clkTz"> </select>
+                    </p>
+                </div>
+                <div class="box-1">
+                    <h2>SNTP</h2>
+                    <p><label for="clkSrv">Server</label>
+                        <input id="clkSrv" type="text">
+                    </p>
+                    <p><label for="clkSyncInt">Sync Interval [sec]</label>
+                        <input id="clkSyncInt" type="number"  min=30 step=1 max=3600>
+                    </p>
+                    <p><label for="clkSntpEn">Enable SNTP</label>
+                        <input id="clkSntpEn" type="checkbox">
+                    </p>
+                    <p><label for="clkSntpSyncEn">Sync Clock</label>
+                        <input id="clkSntpSyncEn" type="checkbox">
+                    </p>  
+                </div>
+                <button class="button button-save" id="clkBtCfg">Save</button>
+            </div>
+
+            <div class="box-1">
+                <h2>State</h2>
+                <table>
+                    <tr><td>Service State</td><td><p id="clkStSvc"></td></tr>
+                    <tr><td>Module State</td><td><p id="clkStMod"></td></tr>
+                    <tr>
+                        <td>Reset</td>
+                        <td><p id="clkStRst"></td>
+                    </tr>
+                    <tr>
+                        <td>Sync</td>
+                        <td><p id="clkStSync"></td>
+                    </tr>
+                    <tr>
+                        <td>Valid</td>
+                        <td><p id="clkStValid"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        
+    </body>
+</html>

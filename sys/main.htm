@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>LucidIoT</title> 
+		 <link rel="stylesheet" href="./css/main.min.css">
+		 <link rel="stylesheet" href="./css/content.min.css">
+		<style >  
+ 
+
+		</style>
+		<link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAhAQMAAACLA5toAAAABlBMVEUAAAAwMP9zSIUhAAAAAXRSTlMAQObYZgAAAIdJREFUCNdjAAIeBhAQA5O6YDIKTH4DEYz5IJLpegOQZN9/AEhy1z8AKf9vAFJeD5KtBotvvwwkGbMfNgCVT/7AwLD//4IKBob43w4FDAyrv4H0X/0LIl/ddgCxv4H0vLYEkd+kQeQffgiJEHlrCiJvvwKRW66CRcDs219BJiz/BzIt/j+QDQDjIjX5qkQf4AAAAABJRU5ErkJggg=="/>
+	</head>
+    <body>
+
+	<script>
+		const injectHead = (function(i,n,j,e,c,t,s){t=n.createElement(j),s=n.getElementsByTagName(j)[0];t.appendChild(n.createTextNode(e.text));t.onload=c(e);s?s.parentNode.insertBefore(t,s):n.head.appendChild(t)}); 
+		var selectedSlot;
+		var chkLoginTimer;
+		var acc; 
+		var pgNet, pgSysInfo, pgClk, pgHttp, pgMqtt, pgMb, pgFtp, pgSmtp, pgJson, pgFrm, pgLog, pgAcc, pgSec, pgDiag, pgIoCfg, pgIoVal;
+		var jsNet, jsSysInfo, jsClk, jsHttp, jsMqtt, jsMb, jsFtp, jsJson, jsFrm, jsLog, jsAcc, jsSec, jsDiag, jsIoCfg, jsIoVal;
+		
+		const cfgDI = 0,
+    		cfgDO = 1,
+    		cfgAI = 2,
+    		cfgAO = 3,
+    		cfgRI = 4;
+
+		const vtDI1 = 0,
+			vtVOS4 = 0x1D,
+			vtCUS4 = 0x23,
+			vtTMS4 = 0x41,
+			vtRMU4 = 0x51;
+
+		const accAdmin = 0x01,
+			accFtpRw = 0x10,
+			accIo = 0x40,
+			accIoCfg = 0x80,
+			accEn = 0x8000;
+		
+		var cDI4 = "0",
+			cDI8 = "16",
+			cDO4 = "4096",
+			cDO8 = "4112",
+			cAI4 = "256",
+			cAO4 = "4352",
+			cRI4 = "2560",
+			cRI8 = "2576";
+
+		var tAO0MA20 = "4352"
+		var tAO4MA20 = "4353"
+		var tAI0MA20 = "4368"
+		
+		var tV = 0,
+			tC = 1;
+
+
+		var fmt = {
+			0 : "Auto",
+			1 : "Digital On / Off",
+			2 : "Digital 1 / 0",
+			3 : "Digital true / false",
+			10 : "Numeric",
+			30 : "Voltage (µV) Integer",
+			31 : "Voltage (V) Decimal",
+			32 : "Voltage (V) Decimal Prec 0",
+			33 : "Voltage (V) Decimal Prec 1",
+			34 : "Voltage (V) Decimal Prec 2",
+			35 : "Voltage (V) Decimal Prec 3",
+			40 : "Current (µA) Integer",
+			41 : "Current (mA) Decimal",
+			42 : "Current (mA) Decimal Prec 0",
+			43 : "Current (mA) Decimal Prec 1",
+			44 : "Current (mA) Decimal Prec 2",
+			45 : "Current (mA) Decimal Prec 3",
+			50 : "Resistance (mOhm)",
+			51 : "Resistance (Ohm) Decimal",
+			52 : "Resistance (Ohm) Decimal Prec 0",
+			53 : "Resistance (Ohm) Decimal Prec 1",
+			54 : "Resistance (Ohm) Decimal Prec 2",
+			55 : "Resistance (Ohm) Decimal Prec 3",
+			60 : "Temperature (m°C)",
+			61 : "Temperature (°C) Decimal",
+			62 : "Temperature (°C) Decimal Prec 0",
+			63 : "Temperature (°C) Decimal Prec 1",
+			64 : "Temperature (°C) Decimal Prec 2",
+			65 : "Temperature (°C) Decimal Prec 3"
+		};
+
+		function fmtGetIdByIdx(idx) {
+			var o = Object.keys(fmt);
+			return o[idx];
+		}
+
+		function fmtGetIdxById(id) {
+			var o = Object.keys(fmt);
+			for (i = 0; i < o.length; i++) {
+				if (o[i] == id)
+					return i;
+			}
+			return 0;
+		}
+
+		function fmtStrGet() {
+			let s = "";
+			for(var k in fmt) {
+				s += '<option>' + fmt[k] + '</option>';
+			}
+			return s;
+		}
+
+		var vId = {
+			0 : "Ch 0",
+			1 : "Ch 1",
+			2 : "Ch 2",
+			3 : "Ch 3",
+			4 : "Ch 4",
+			5 : "Ch 5",
+			6 : "Ch 6",
+			7 : "Ch 7",
+			8 : "Ch 8",
+			9 : "Ch 9",
+			10 : "Ch 10",
+			11 : "Ch 11",
+			12 : "Ch 12",
+			13 : "Ch 13",
+			14 : "Ch 14",
+			15 : "Ch 15",
+			0x1000 : "System Time"
+		};
+
+
+		function vIdGetIdByIdx(idx) {
+			var o = Object.keys(vId);
+			return o[idx];
+		}
+
+		function vIdGetIdxById(id) {
+			var o = Object.keys(vId);
+			for (i = 0; i < o.length; i++) {
+				if (o[i] == id)
+					return i;
+			}
+			return 0;
+		}
+
+		function vIdStrGet() {
+			let s = "";
+			for(var k in vId) {
+				s += '<option>' + vId[k] + '</option>';
+			}
+			return s;
+		}
+
+		function vIdStrGet() {
+			let s = "";
+			for(var k in vId) {
+				s += '<option>' + vId[k] + '</option>';
+			}
+			return s;
+		}
+
+		var doMode = {
+			0 : "Inactive",
+			1 : "Reflect",
+			8 : "OnOff",
+			10 : "DutyCycle"
+		};
+
+		function doModeGetIdByIdx(idx) {
+			return Object.keys(doMode)[idx];
+		}
+
+		function doModeGetIdxById(id) {
+			var o = Object.keys(doMode);
+			for (var i = 0; i < o.length; i++) {
+				if (o[i] == id)
+					return i;
+			}
+			return 0;
+		}
+		
+
+		function doModeStrGet() {
+			let s = "";
+			for (var k in doMode) {
+				s += '<option>' + doMode[k] + '</option>';
+			}
+			return s;
+		}
+
+		var diMode = {
+			0 : "Inactive",
+			1 : "Reflect",
+			0x10 : "Rising Edge",
+			0x11 : "Falling Edge",
+			0x20 : "Counting"
+		};
+
+		function diModeGetIdByIdx(idx) {
+			return Object.keys(diMode)[idx];
+		}
+
+		function diModeGetIdxById(id) {
+			var o = Object.keys(diMode);
+			for (var i = 0; i < o.length; i++) {
+				if (o[i] == id)
+					return i;
+			}
+			return 0;
+		}
+
+		function diModeStrGet() {
+			let s = "";
+			for (var k in diMode) {
+				s += '<option>' + diMode[k] + '</option>';
+			}
+			return s;
+		}
+
+		var stdMode = {
+			0 : "Inactive",
+			1 : "Standard"
+		};
+
+		function stdModeGetIdByIdx(idx) {
+			return Object.keys(stdMode)[idx];
+		}
+
+		function stdModeGetIdxById(id) {
+			var o = Object.keys(stdMode);
+			for (var i = 0; i < o.length; i++) {
+				if (o[i] == id)
+					return i;
+			}
+			return 0;
+		}
+
+		function stdModeStrGet() {
+			let s = "";
+			for (var k in stdMode) {
+				s += '<option>' + stdMode[k] + '</option>';
+			}
+			return s;
+		}
+
+		var tz = [
+			{id: 0, z: "CET/CEST"},
+			{id: 1, z: "CET"}];
+		
+		function tzOptAdd(eId) {
+			let i;
+			let c;
+			for (i = 0; i < tz.length; i++) {
+				c = document.createElement("option");
+				c.text = tz[i].z;
+				document.getElementById(eId).options.add(c);
+			}
+		}
+
+		function tzIdGet(idx) {
+			return tz[idx].id;
+		}
+
+		function tzIdxGet(id) {
+			let i;
+			for (i = 0; i < tz.length; i++) {
+				if (id == tz[i].id)
+					return i;
+				}
+			return 0;
+		}
+
+		async function fetchHtmlAsText(url) {
+			return await (await fetch(url)).text();
+		}
+
+		function eGetById(id) {
+     		return document.getElementById(id);
+    }
+
+		function hS(id, h) {
+			eGetById(id).innerHTML = h;
+		}
+
+		function vS(id, v) {
+			eGetById(id).value = v;
+		}
+
+		function vG(id){
+			return eGetById(id).value;
+		}
+
+		function cS(id, v) {
+			eGetById(id).checked = v;
+		}
+
+		function cG(id) {
+			return eGetById(id).checked;
+		}
+
+		function tcS(id, c) {
+			eGetById(id).style.color = c;
+		}
+
+		function siS(id, v) {
+			eGetById(id).selectedIndex = v;
+		}
+
+		function siG(id) {
+			return eGetById(id).selectedIndex;
+		}
+
+		function dS(id, v) {
+			eGetById(id).style.display = v;
+		}
+
+		function valC(id) {
+			return eGetById(id).checkValidity();
+		}
+
+		function sIdG() {
+			let sId = document.cookie.split('=');
+			return parseInt(sId[1]);
+		}
+
+		function pI(v) {
+			return parseInt(v);
+		}
+
+		function resClr(id)	{
+			tcS(id, "initial")
+			hS(id, "");
+		}
+
+		function resErr(id, v) {
+			tcS(id, "red");
+			hS(id, "ERROR: " + v);
+		}
+
+		function resExcp(id, v) {
+			tcS(id, "red");
+			hS(id, "EXCEPT: " +v);
+		}
+
+		function resOk(id, v) {
+			tcS(id, "green");
+			hS(id, v);
+		}
+
+		function mStat(rq, rs) {
+			return (rq.Cmd + ' Status : ' + rs.Status);
+		}
+
+		function mExcept(rq, e) {
+			return (rq.Cmd + ' Exception : ' + e);
+		}
+
+		const fetchInject = function (inputs, promise) {
+  			//if (!arguments.length) return Promise.reject(new ReferenceError("Failed to execute 'fetchInject': 1 argument required but only 0 present."))
+  			//if (arguments[0] && arguments[0].constructor !== Array) return Promise.reject(new TypeError("Failed to execute 'fetchInject': argument 1 must be of type 'Array'."))
+  			//if (arguments[1] && arguments[1].constructor !== Promise) return Promise.reject(new TypeError("Failed to execute 'fetchInject': argument 2 must be of type 'Promise'."))
+
+  			const resources = []
+  			const deferreds = promise ? [].concat(promise) : []
+  			const thenables = []
+
+			inputs.forEach(input => deferreds.push(window.fetch(input).then(res => {
+				return [res.clone().text(), res.blob()]
+			}).then(promises => {
+				return Promise.all(promises).then(resolved => {
+					resources.push({ text: resolved[0], blob: resolved[1] })
+				})
+			})
+			))
+
+			return Promise.all(deferreds).then(() => {
+				resources.forEach(resource => {
+				thenables.push({
+					then: resolve => {
+					resource.blob.type.includes('text/css')
+						? injectHead(window, document, 'style', resource, resolve)
+						: injectHead(window, document, 'script', resource, resolve)
+					}
+			})
+		})
+		return Promise.all(thenables)
+  		})
+		}
+ 
+		function sReq(j, x = xhttp) { 
+			var url = '/cmd'; 
+			var params ='value=';
+			var request = JSON.stringify(j);
+
+			x.open("POST", url, true);
+			x.setRequestHeader("Content-type", "application/x-www-form-urlencoded", "Connection: keep-alive");
+			params += request;
+			x.send(params);
+			return x;
+		}
+
+		async function r(req, x = xhttp) {
+			return new Promise(function(resolve, reject) {
+				let r = sReq(req, x);
+				r.onreadystatechange = function () {
+					if (this.readyState == 4) {
+						if (this.status == 200)	{
+							try {
+								let rsp = JSON.parse(this.responseText);
+								resolve(rsp);
+							} catch (e) {
+								console.log(this.responseText);
+								reject("EXCEPT: " + e);
+							}
+						} else {
+							reject("HTTP Status: " + this.status);
+						}
+					}
+				}
+			});
+		}
+
+		async function rqp(rq, fupd) {
+			return new Promise(async(res, rej) => {
+				await r(rq).then((j) => {
+					if (j.Status == "OK") {
+						if (fupd)
+							fupd(j);
+						res(j);
+					} else {
+						rej(mStat(rq, j));
+					}
+				}).catch((m) => {
+					rej(mExcept(rq, m));
+				})
+			});
+		}
+
+		function ofstGet(slot) {
+			let c;
+			if (slot == 1)
+				c = sessionStorage.getItem("c0");
+			else
+				return 0;
+
+			if ((c == "0")	||
+					(c == "4096") ||
+					(c == "256") ||
+					(c == "4352") ||
+					(c == "2560"))
+				return 4;
+			else if ((c == "16") ||
+					(c == "4112") ||
+					(c == "2576"))
+				return 8;
+			return 0;
+		}
+
+		function classGet(slot)
+		{
+			if (slot == 1)
+				return sessionStorage.getItem("c1");
+			else
+				return sessionStorage.getItem("c0");
+		}
+
+		function sysIdStore(j) {
+			if (j.Slots.length) {
+				sessionStorage.setItem("c0", j.Slots[0].Class);
+				sessionStorage.setItem("t0", j.Slots[0].Type);
+				sessionStorage.setItem("cn0", j.Slots[0].ClassName);
+				sessionStorage.setItem("tn0", j.Slots[0].TypeName);
+			}
+			if (j.Slots.length > 1) {
+				sessionStorage.setItem("c1", j.Slots[1].Class);
+				sessionStorage.setItem("t1", j.Slots[1].Type);
+				sessionStorage.setItem("cn1", j.Slots[1].ClassName);
+				sessionStorage.setItem("tn1", j.Slots[1].TypeName);
+			}
+		}
+
+		async function sysIdGet(upd) {
+			let rq = {Cmd:"SysIdGet",
+						SessionId:sIdG()};
+			
+			return new Promise(async(res, rej) => {
+				await r(rq).then((j) => {
+				if (j.Status == "OK") {
+					sysIdStore(j);
+					if (upd)
+						sysIdUpd(j);
+					res();
+				} else {
+					rej(mStat(rq, j));
+				}
+				}).catch((m) => {
+					rej(mExcept(rq, m));
+				});
+			});
+		}
+
+		// SMTP
+
+		function smtpCfgUpd(j) {
+
+		}
+
+		function smtpCfgSet() {
+
+		}
+
+		async function smtpCfgGet() {
+
+		}
+
+
+
+		// ACCOUNT
+		function accVisibleSet(acc) {
+			dS("btSysInfo", "block");
+
+			if (sessionStorage.getItem("Mode") != 0) {
+				dS("btSec", "block");
+				return;
+			}
+
+			if ((acc & accAdmin) || (acc & accIoCfg)) {
+				if (sessionStorage.getItem("c0") != null) {
+					dS("btIoCfg0", "block");
+					dS("btIoVal0", "block");
+				}
+
+				if (sessionStorage.getItem("c1") != null) {
+					dS("btIoCfg1", "block");
+					dS("btIoVal1", "block");
+				}
+			}
+
+			if ((acc & accAdmin) || (acc & accIo)) {
+				if (sessionStorage.getItem("c0") != null) {
+					dS("btIoVal0", "block");
+				}
+	
+				if (sessionStorage.getItem("c1") != null) {
+					dS("btIoVal1", "block");
+				}
+			}
+
+			if (acc & accAdmin) {
+				dS("btNet", "block");
+				dS("btClk", "block");
+				dS("btHttp", "block");
+				dS("btMqtt", "block");
+				dS("btMb", "block");
+				dS("btFtp", "block");
+				//dS("btSmtp", "block");
+				dS("btJson", "block");
+				dS("btFrm", "block");
+				dS("btLog", "block");
+				dS("btAcc", "block");
+			}
+
+			if (sessionStorage.getItem("ld") == null) {
+				if (acc & accAdmin)
+					sessionStorage.setItem("ld", "sysInfo");
+				else
+					sessionStorage.setItem("ld", "ioVal0");
+			}
+		}
+
+		async function accGetByUser(name) {
+			let rq = {Cmd:"AccGet", SessionId:sIdG(), Name:name};
+
+			return new Promise(async (res, rej) => {
+				await r(rq).then((j) => {
+					if (j.Status == "OK")
+						res(j.Access);
+					else
+						rej(mStat(rq, j));
+				}).catch((m) => {
+					rej(mExcept(rq, m));
+				})
+			});
+		}
+
+		async function accLoginCheck(x = xhttp) {
+			let rq = {Cmd:"AccLogCheck",
+				SessionId:sIdG(),
+				Heartbeat:0};
+				
+			return new Promise(async(res,rej) => {
+				await r(rq, x).then((j) => {
+					if (j.Status == "OK") {
+						res();
+					} else {
+						rej(j.Status);
+					}
+				}).catch((m) => {
+					rej(m);
+				});
+			});
+		}
+
+		async function accLogout()
+		{
+			let rq = {Cmd:"AccLogout",
+				SessionId:sIdG()};
+			await r(rq).then((j) => {
+				if (j.Status == "OK")
+					window.location.href = 'logout.htm';
+				else {
+					console.log(mStat(rq, j));
+					window.location.href = 'logout.htm';
+				}
+			}).catch((m) => {
+				console.log(mExcept(rq, m));
+				window.location.href = 'logout.htm';
+			})
+		}
+
+
+		async function netLd(){
+			if (!pgNet)
+				pgNet = await fetchHtmlAsText("net.htm")
+			hS("content", pgNet);
+
+			if (!jsNet) {
+				await fetchInject(["net.js"])
+				jsNet = 1;
+			}
+
+			sessionStorage.setItem("ld", "net");
+
+			await netInit().then(() => {
+			}).catch((m) => {
+				errpopup(m);
+			});
+		}
+
+		async function sysInfoLd(){
+			if (!pgSysInfo)
+				pgSysInfo = await fetchHtmlAsText("sysinfo.htm");
+			hS("content", pgSysInfo);
+
+			if (!jsSysInfo) {
+				await fetchInject(["sysinfo.js"])
+				jsSysInfo = 1;
+			}
+			sessionStorage.setItem("ld", "sysInfo");
+			
+			await sysInfoInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function clkLd(){
+
+			if (!pgClk)
+				pgClk = await fetchHtmlAsText("clk.htm")
+			hS("content", pgClk);
+
+			if (!jsClk) {
+				await fetchInject(["clk.js"]);
+				jsClk = 1;
+			}
+			sessionStorage.setItem("ld", "clk");
+			tzOptAdd("clkTz");
+			
+			await clkInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function httpLd(){
+
+			if (!pgHttp)
+				pgHttp = await fetchHtmlAsText("http.htm")
+			hS("content", pgHttp);
+
+			if (!jsHttp) {
+				await fetchInject(["http.js"]);
+				jsHttp = 1;
+			}
+			sessionStorage.setItem("ld", "http");
+
+			await httpInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+			await httpCfgGet();
+		}
+
+		async function mqttLd(){
+			if (!pgMqtt)
+				pgMqtt = await fetchHtmlAsText("mqtt.htm")
+			hS("content", pgMqtt);
+
+			if (!jsMqtt) {
+				await fetchInject(["mqtt.js"]);
+				jsMqtt = 1;
+			}
+			sessionStorage.setItem("ld", "mqtt");
+			
+			await mqttInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function ftpLd(){
+			if (!pgFtp)
+				pgFtp = await fetchHtmlAsText("ftp.htm")
+			hS("content", pgFtp);
+
+			if (!jsFtp) {
+				await fetchInject(["ftp.js"]);
+				jsFtp = 1;
+			}
+			sessionStorage.setItem("ld", "ftp");
+
+			await ftpInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function mbLd(){
+			if (!pgMb)
+				pgMb = await fetchHtmlAsText("mb.htm");
+
+			if (!jsMb) {
+				await fetchInject(["mb.js"]);
+				jsMb = 1;
+			}
+
+			hS("content", pgMb);
+			sessionStorage.setItem("ld", "mb");
+
+			await mbInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function jsonLd(){
+			if (!pgJson)
+				pgJson = await fetchHtmlAsText("json.htm");
+
+			if (!jsJson) {
+				await fetchInject(["json.js"]);
+				jsJson = 1;
+			}
+
+			hS("content", pgJson);
+			sessionStorage.setItem("ld", "json");
+
+			await jsonInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function frmLd(){
+			if (!pgFrm)
+				pgFrm = await fetchHtmlAsText("frm.htm");
+
+			if (!jsFrm) {
+				await fetchInject(["frm.js"]);
+				jsFrm = 1;
+			}
+			hS("content", pgFrm);
+			sessionStorage.setItem("ld", "frm");
+
+			await frameInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function accLd() {
+			if (!pgAcc)
+				pgAcc = await fetchHtmlAsText("acc.htm");
+
+			if (!jsAcc) {
+				await fetchInject(["acc.js"]);
+				jsAcc = 1;
+			}
+			hS("content", pgAcc);
+			sessionStorage.setItem("ld", "acc");
+
+			await accInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function secLd() {
+			if (!pgSec)
+				pgSec = await fetchHtmlAsText("sec.htm");
+
+			if (!jsSec) {
+				await fetchInject(["sec.js"]);
+				jsSec = 1;
+			}
+			hS("content", pgSec);
+			sessionStorage.setItem("ld", "sec");
+
+			await secInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+		
+		async function diagLd() {
+			if (!pgDiag)
+				pgDiag = await fetchHtmlAsText("diag.htm");
+
+			if (!jsDiag) {
+				await fetchInject(["diag.js"]);
+				jsDiag = 1;
+			}
+			hS("content", pgDiag);
+			sessionStorage.setItem("ld", "diag");
+
+			await diagInit().then(() => {
+			}).catch((m) => {
+				errpopup(m);
+			});
+		}
+		
+		
+		async function logLd(){
+
+			console.log("Test Log Enter");
+			if (!pgLog)
+				pgLog = await fetchHtmlAsText("log.htm");
+			hS("content", pgLog);
+
+			if (!jsLog) {
+				await fetchInject(["log.js"]);
+				jsLog = 1;
+			}
+			
+			sessionStorage.setItem("ld", "log");
+
+			await logInit().then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function ioLd(slot){
+			let c;
+			selectedSlot = slot;
+
+			if (!pgIoCfg)
+				pgIoCfg = await fetchHtmlAsText("io.htm");
+			hS("content", pgIoCfg);
+
+			if (!jsIoCfg) {
+				await fetchInject(["io.js"]);
+				jsIoCfg = 1;
+			}
+			sessionStorage.setItem("ld", "io" + slot);
+
+			if (slot == 1) {
+				c = sessionStorage.getItem("c1");
+			} else
+				c = sessionStorage.getItem("c0");
+
+			await ioCfgInit(slot, c).then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+
+		async function ioValLd(slot) {
+			let c;
+			selectedSlot = slot;
+
+			if (!pgIoVal)
+				pgIoVal = await fetchHtmlAsText("ioval.htm");
+			hS("content", pgIoVal);
+
+			if (!jsIoVal) {
+				await fetchInject(["ioval.js"]);
+				jsIoVal = 1;
+			}
+			sessionStorage.setItem("ld", "ioVal" + slot);
+			
+			if (slot == 1) {
+				c = sessionStorage.getItem("c1");
+				t = sessionStorage.getItem("t1");
+			} else {
+				c = sessionStorage.getItem("c0");
+				t = sessionStorage.getItem("t0");
+			}
+			
+
+			await ioValInit(slot, c, t).then(() => {
+			}).catch((m) => {
+			  errpopup(m);
+			});
+		}
+	</script>
+ 		<div class="container">	
+			<header  >				
+					<div class="main-header">
+							<div class="main-logo">
+								<img alt="logo key" src="
+										data:image/png;base64,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" />
+							</div>
+										<h2>LucidIoT</h2>
+										<div   class=" nav-btn">
+											<div class="nav-btn__item"></div>
+											<div class="nav-btn__item"></div>
+											<div class="nav-btn__item"></div>
+							</div>														
+					</div>		
+			</header>				 
+		</div>					
+		<main class="container main">
+					<div class="nav__placeholder"></div>
+							<div class="main-nav">	
+								<nav>
+									<ul>
+										<!-- <li id="btSysInfo" style="display:none">System Info</li>
+										<li id="btNet" style="display:none">Network</li>
+										<li id="btClk" style="display:none">Date & Time</li>
+										<li id="btHttp" style="display:none">HTTP Server</li>
+										<li id="btMqtt" style="display:none">MQTT Client</li>
+										<li id="btMb" style="display:none">Modbus/TCP Server</li>
+										<li id="btFtp" style="display:none">FTP Server</li> -->
+										<!-- <li id="btSmtp" style="display:none">SMTP</li> -->
+										<!-- <li id="btJson" style="display:none">JSON Interface</li>
+										<li id="btFrm" style="display:none">Frame Interface</li>
+										<li id="btLog" style="display:none">Data Logging</li> 
+										<li id="btAcc" style="display:none">User Accounts</li>
+										<li id="btSec" style="display:none">Security</li>
+										<li id="btIoCfg0" style="display:none">IO Slot 0 Config</li>
+										<li id="btIoVal0" style="display:none">IO Slot 0 Value</li>
+										<li id="btIoCfg1" style="display:none">IO Slot 1 Config</li>
+										<li id="btIoVal1" style="display:none">IO Slot 1 Value</li>
+										<li id="btLogout">Logout</li> -->
+									</ul>
+									<ul>
+										<li id="btSysInfo" >System Info</li>
+										<li id="btNet" >Network</li>
+										<li id="btClk" >Date & Time</li>
+										<li id="btHttp" >HTTP Server</li>
+										<li id="btMqtt" >MQTT Client</li>
+										<li id="btMb" >Modbus/TCP Server</li>
+										<li id="btFtp" >FTP Server</li>
+										<!-- <li id="btSmtp" >SMTP</li> -->
+										<li id="btJson" >JSON Interface</li>
+										<li id="btFrm" >Frame Interface</li>
+										<li id="btLog" >Logging</li> 
+										<li id="btAcc" >User Accounts</li>
+										<li id="btSec" >Security</li>
+										<li id="btDiag">System Diagnostic</li>
+										<li id="btIoCfg0" >IO Slot 0 Config</li>
+										<li id="btIoVal0" >IO Slot 0 Value</li>
+										<li id="btIoCfg1" >IO Slot 1 Config</li>
+										<li id="btIoVal1" >IO Slot 1 Value</li>
+										<li id="btLogout">Logout</li>
+									</ul>
+									<div class="session">
+										<p>Session ID</p>
+										<p id="sessionId">ID</p>
+									</div>
+								</nav>
+			
+							</div>
+		
+			<div id="content"></div>
+			<div class="save-status">
+				<div class="save-status__done"> Saved</div>
+				<div class="save-status__err">Error</div>
+				<div class="save-status__error-text"> </div>
+		   </div> 
+
+		</main> <!-- Main container-->
+					 
+
+
+		<script>
+			// navigation toggle , add 'is-active' class
+		window.addEventListener('load', function(){
+			const nav =document.querySelector("nav");
+			nav.onclick=navClose;
+			document.querySelector(".nav__placeholder").onclick=navClose;
+			const navitem = nav.querySelectorAll('li');
+				for(let i=0 ; i< navitem.length ; i++){
+						navitem[i].classList.remove('is-active');
+						 if(sessionStorage.getItem("active_button_id")==navitem[i].id && navitem[i].id!=="btLogout" ){
+						navitem[i].classList.add('is-active');
+						}
+				 }
+				 if(!sessionStorage.getItem("active_button_id") || sessionStorage.getItem("active_button_id")=="btLogout"){
+					 try{
+						document.getElementById("btSysInfo").classList.add('is-active');
+					 } catch(err) {console.log(err)}
+				 }
+			
+		
+			 function navClose(event){ 	
+					 if (event.target.tagName == "LI"){
+						 for(let i=0 ; i< navitem.length ; i++){
+							 navitem[i].classList.remove('is-active');
+						 }
+						 event.target.classList.add('is-active');
+						 sessionStorage.setItem("active_button_id", event.target.id);
+						}
+					document.querySelector("body").classList.remove('nav-open');
+			 }
+				document.querySelector(".nav-btn").addEventListener('click', function(){
+				document.querySelector("body").classList.toggle('nav-open');
+					})
+							  
+		})
+		
+		
+		
+		// start status of requests
+
+		var xhttp;
+		var xt;
+		 
+		const body= document.querySelector('body');
+		const saveStatus = document.querySelector('.save-status');
+		const saveStatusText = document.querySelector('.save-status__error-text');
+		const saveStatusDone = document.querySelector('.save-status__done');
+ 
+		let lastbutton="";
+		const changeClass = function(param) {
+	    const addClass = function (el) {
+				if(el){
+					lastbutton=el.target.id;
+				}		
+				(el.target).classList.add('blocked-button');
+				setTimeout(function(){
+					(el.target).classList.remove('blocked-button');
+				},3000);
+				document.removeEventListener('click',addClass);
+		}
+				if(param=="add"){
+					document.addEventListener('click',addClass);
+				}
+				if(param=="remove"){
+				 
+					p = new Promise(function(res, rej){ 
+									if(lastbutton){
+										res();
+									}
+					})
+					p.then(()=>{
+					 document.getElementById(lastbutton).classList.remove("blocked-button");
+					 lastbutton="";
+					})
+
+				 }
+		}
+
+		function loadingpopup(){
+			 
+			body.classList.add('saving-process');
+			changeClass("add")
+			setTimeout(function(){
+				body.classList.remove("saving-process");
+			},3000);
+		}
+		
+		function errpopup(m,type){		 
+			body.classList.remove("saving-process");
+			changeClass("remove");
+			saveStatusText.innerHTML=m;
+			saveStatus.classList.add('save-status--error');
+			setTimeout(function(){
+				saveStatus.classList.remove('save-status--error');
+				body.classList.remove("saving-process");
+			},2000);
+		}
+		
+		function donepopup(t){
+			body.classList.remove("saving-process");
+			changeClass("remove");
+			if(t){
+				saveStatusDone.innerHTML=t;
+			} else {saveStatusDone="Saved"}		
+			saveStatus.classList.add('save-status--save');
+			setTimeout(function(){	
+				saveStatus.classList.remove('save-status--save');
+			},2000);
+		}
+		
+		// end  status of requests
+		</script>
+
+
+	<script>
+		function btnEvAdd(id, fnc) {
+			eGetById(id).addEventListener("click", fnc);
+		}
+		btnEvAdd("btNet", async () => {await netLd()});
+		btnEvAdd("btSysInfo", async () => {await sysInfoLd()});
+		btnEvAdd("btClk", clkLd);
+		btnEvAdd("btHttp", httpLd);
+		btnEvAdd("btMqtt", mqttLd);
+		btnEvAdd("btMb", mbLd);
+		btnEvAdd("btFtp", ftpLd);
+		//btnEvAdd("btSmtp", smtpLd);
+		btnEvAdd("btJson", jsonLd);
+		btnEvAdd("btFrm", frmLd);
+		btnEvAdd("btLog", logLd);
+		btnEvAdd("btAcc", accLd);
+		btnEvAdd("btSec", secLd);
+		btnEvAdd("btDiag", diagLd);
+		btnEvAdd("btIoCfg0", function() {ioLd(0);});
+		btnEvAdd("btIoVal0", function() {ioValLd(0);});
+		btnEvAdd("btIoCfg1", function() {ioLd(1);});
+		btnEvAdd("btIoVal1", function() {ioValLd(1);});
+		btnEvAdd("btLogout", accLogout);
+
+		window.onload = async function() {
+			let ld, tm;
+
+			xhttp = new XMLHttpRequest();
+			xt = new XMLHttpRequest();
+			
+			await sysIdGet(0).then(() => {
+			}).catch((m) =>{
+				tm = m;
+			})
+
+			if (tm) {
+				tm = null;
+				// Overwrite
+				//sessionStorage.setItem("user", "");
+				//sessionStorage.setItem("c0", cRI4);
+				sessionStorage.setItem("c1", cAO4);
+				//sessionStorage.setItem("c1", cRI8);
+				acc = 0xFFFF;
+			}
+
+			if (!tm) {
+				await accGetByUser(sessionStorage.getItem("user")).then((tacc) => {
+				acc = tacc;				
+				}).catch((m) => {
+					errpopup(m);
+				});
+			}
+			
+			accVisibleSet(acc);
+			
+			/*
+			await accLoginCheck()
+			.then(() => {
+			}).catch((m) => {
+				console.log(m);
+				window.location.href = 'logout.htm';
+			});
+			*/
+
+			/*
+			chkLoginTimer = setInterval(async () => {
+				await accLoginCheck(xt)
+				.then(() => {
+				}).catch((m) => {
+					console.log(m);
+					window.location.href = 'logout.htm';
+			})}, 10000);
+			*/
+
+			var e = document.cookie.split('=');
+			if (e.length == 2) {
+				hS("sessionId", e[1]);
+			} else {
+				hS("sessionId", "COOKIE ERROR");
+			}
+
+			ld = sessionStorage.getItem("ld");
+
+			if (ld == "net")
+				netLd();
+			else if (ld == "sysInfo")
+				sysInfoLd();
+			else if (ld == "clk")
+				clkLd();
+			else if (ld == "http")
+				httpLd();
+			else if (ld == "mqtt")
+				mqttLd();
+			else if (ld == "mb")
+				mbLd();
+			else if (ld == "ftp")
+				ftpLd();
+			else if (ld == "smtp")
+				smtpLd();
+			else if (ld == "json")
+				jsonLd();
+			else if (ld == "frm")
+				frmLd();
+			else if (ld == "log")
+				logLd();
+			else if (ld == "acc")
+				accLd();
+			else if (ld == "sec")
+				secLd();
+			else if (ld == "diag")
+				diagLd();
+			else if (ld == "io0")
+				ioLd(0);
+			else if (ld == "io1")
+				ioLd(1);
+			else if (ld == "ioVal0")
+				ioValLd(0);
+			else if (ld == "ioVal1")
+				ioValLd(1);
+			else
+				sysInfoLd();
+		}
+		
+	</script>
+			
+
+		</body>
+</html>

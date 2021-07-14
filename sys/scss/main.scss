@@ -1,0 +1,101 @@
+@import './header&nav.scss';
+// @import 'content.scss';
+
+    .w100{  
+        width: 100%;
+    }  
+    
+    .saving-process { 
+        .button , button{ 
+            pointer-events: none;
+            cursor: none;
+            opacity: 0.8; 
+            outline: none; 
+        } 
+    .button-save{   
+        pointer-events: none;  
+    }      
+    }                
+          .blocked-button.button-save{
+            position: relative;
+            pointer-events: none;
+             color:rgba(255, 255, 255, 0);
+             &::after{ 
+                    background-color: #fff;
+                 position: absolute;
+                 content:"...";
+                 pointer-events: none;
+                 left: 0;top: 0;bottom: 0;height: 0;
+                 height:calc(100% - 4px); 
+                 width: calc(100% - 4px);
+                 margin-top: 2px;
+                 margin-left: 2px;
+                 text-align: center; 
+                 color: $text-color; 
+                 font-size: 22px; 
+             } 
+          }
+             
+.save-status {  
+    transition: 0.2s;
+    pointer-events: none; 
+    opacity: 0;
+    line-height: 1.6;
+    position: fixed;
+    bottom:50%;
+    width: 100%;
+    left:0;
+    right: 0;
+    @include border; 
+    @include md{
+        width: auto;
+        bottom:15px;  
+        right:15px; 
+        left:auto;
+   
+    }
+     min-height: 80px; 
+    padding: 20px;  
+    min-width: 200px; 
+    display: flex;  
+
+    flex-direction: column;  
+    justify-content: center; 
+    align-items: center;  
+    &__done{   
+        display: none;   
+    }   
+    &__err{ 
+        display: none; 
+  
+    }    
+    &__error-text{ 
+        display: none;
+    }
+}
+   
+
+.save-status--save{ 
+    z-index: 15;
+   opacity: 1;
+    background-color: rgba(0, 255, 98, 0.842); 
+    .save-status__done{
+        display: block;
+        font-weight: 600;
+    }
+
+}
+.save-status--error{
+   opacity: 1;
+    background-color: rgba(241, 101, 101, 0.842);
+    .save-status__err{
+        display: block;
+        font-weight: 600;
+    }
+    .save-status__error-text{
+        display: block; 
+    }
+
+}
+
+
