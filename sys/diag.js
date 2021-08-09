@@ -1,7 +1,7 @@
-
+ 
 function diagUpd(j) {
     try {
-        vS("dI", vG("dI") + j.Data);
+        hS("dI", hG("dI") + j.Data);
         hS("dF", j.Name);
     } catch(e) {
         console.log(e);
@@ -13,7 +13,7 @@ async function diagLoad() {
     let c = true, s = false, tm;
 
     hS("dF", "");
-    vS("dI", "");
+    hS("dI", "");
 
     return new Promise(async function(res, rej) {
         while(c) {
@@ -48,3 +48,24 @@ async function diagInit() {
         })
     });
 }    
+
+   
+(function (){
+  const int =  setInterval(() => { 
+      const b = document.querySelector('.diagnostic__resize__button');
+      const cl = document.querySelector('.diagnostic__close');
+          if(b){
+              clearInterval(int); 
+          const c = document.querySelector('.diagnostic__container');
+          b.addEventListener('click', function(){
+              c.classList.toggle('diagnostic-open');
+              document.body.classList.toggle('noscrol');
+          })
+          cl.addEventListener('click', function(){
+              c.classList.remove('diagnostic-open');
+              document.body.classList.remove('noscrol');
+          })     
+          }  
+  }, 200); 
+})()
+ 

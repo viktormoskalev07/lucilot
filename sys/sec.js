@@ -47,12 +47,16 @@ async function secMemGet(id) {
 function secAdd(id) {
     var html;
 
-    html = '<div class="box-topic">' +
-        '<h3 class="topic-title">Secure Memory Id ' + id + '</h3>' +
-        '<p id="sMem' + id + '">None</p>' + 
-        '<button class="button button-save" id="sMemBtUp' + id + '">Upload' +
-        '<button class="button button-save" id="sMemBtDel' + id + '">Delete';
-
+    html = '<div class="box-topic secure__item">' +
+        '<h3 class="value-title">Secure Memory Id ' + id + '</h3>' +
+        '<div class="secure__content">  '+
+         ' <p id="sMem' + id + '">None </p>' + 
+                '<div class="secure__buttons">'+
+                    '<button class="button " id="sMemBtUp' + id + '">Upload' +
+                    '<button class="button " id="sMemBtDel' + id + '">Delete'+
+                '</div>' +
+       '</div>'+
+       '</div>'
     return html;
 }
 

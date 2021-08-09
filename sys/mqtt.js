@@ -166,7 +166,7 @@ function mqttTopicAdd(id) {
     var html;
 
     html =	'<div class="box-topic">' +
-                '<h3 class="topic-title">Topic ' + id + '</h3>'+
+                '<h3 class="value-title">Topic ' + id + '</h3>'+
             
                 '<div class="b-t">' +
                     '<p><label for="mqT' + id + '">Type</label><select id="mqT' + id + '"><option>Disable</option><option>Publish</option><option>Subscribe</option></select></p>' +

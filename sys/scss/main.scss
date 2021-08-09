@@ -1,9 +1,12 @@
 @import './header&nav.scss';
-// @import 'content.scss';
+@import 'content.scss';
 
     .w100{  
         width: 100%;
     }  
+    .noscrol{
+        overflow: hidden;
+    }
     
     .saving-process { 
         .button , button{ 

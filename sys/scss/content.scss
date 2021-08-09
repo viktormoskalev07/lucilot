@@ -147,7 +147,7 @@ td {
      flex-wrap: wrap;
  }
 
-.b-t , .topic-title , .box-13{
+.b-t  , .box-13{
     flex-basis: 100%;
     label{
         min-width: 77px;
@@ -167,11 +167,7 @@ td {
     border-radius: 0;
     padding: 5px 10px;
 }
-
-.topic-title{
-    padding: 10px;
-    background-color: rgb(245, 245, 245);
-}
+ 
 .value-title{
     flex-basis: 100%;
     background-color: rgb(245, 245, 245);
@@ -409,9 +405,9 @@ td {
 }
  
 .diagnostic{
-    &__container{ 
-       flex-basis: 100%; 
-        @include md{
+    &__container{   
+       flex-basis: 100%;
+        @include xl{
         padding: 20px;
         margin: 10px;
         @include border;
@@ -421,22 +417,150 @@ td {
     &__name{ 
         &-container{
             flex-basis: 100%; 
-            font-size: 16px;
+            font-size: 16px; 
             margin: 15px;
             span{
-                @include md{
+                @include xl{
                     font-size: 22px; 
                 } 
             }
         }
     }
-    &__text{
+    &__text{ 
+        margin-left: auto;
+        margin-right: auto;
+        transition:0.3s;
+        line-height: 2;
         padding: 10px;
         display: block;
-        width: 100%;
-        min-height: 600px;
+        width: 0px;  
+        min-width: 100%;
+        overflow: auto;
+         height: 300px;
+        @include lg{
+            height: 400px;
+        }
         white-space: pre;
         resize: none; 
         @include border;
+        background-color: #fff;
+
     } 
+    &__resize{
+        padding: 10px;
+        text-align: center;
+        &__button{
+            cursor: pointer;
+            svg{
+                transition: 0.4;
+                height: 30px;
+                width: 30px;
+            }
+            transition:0.3s;
+            border:none;
+            background-color: transparent;
+            margin-top: 15px;
+            &:hover{
+               svg{
+               transform: scale(1.05); 
+               }
+            }
+        }
+    }
+    &__close{
+        display: none;
+    }
+    &-open{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 55;
+        padding: 5px; 
+        margin: 0;
+        background-color:$background-color;
+        .diagnostic__text{
+            height: calc(100vh - 100px); 
+        }
+        .diagnostic__name-container{ 
+              padding: 2px 60px 2px 2px;
+                font-size: 14px;
+                margin: 2px;
+                max-height: 30px;
+                overflow: hidden;
+
+      
+        }
+        .diagnostic__resize{
+            padding: 0;
+            .diagnostic__resize__button{
+                
+            }
+        }
+        .diagnostic__close{
+            cursor: pointer;
+            transition:0.2s;
+            display: block;
+            position: fixed;
+            right: 15px;
+            top: 5px;
+            background-color: transparent;
+            font-size: 22px;
+            border: none;
+            &:hover{
+                transform: scale(1.1);
+            }
+        }
+    }
+}
+ 
+.secure{
+    
+    &__item{
+        display: block; 
+        
+    }
+    &__content{
+        display: flex;
+        flex-wrap: wrap;
+        @include lg{
+            flex-wrap: nowrap;
+        }
+ 
+        justify-content: space-between; 
+        p{
+            font-size: 16px;
+            width: 100%;
+            @include lg{
+                width: auto;
+            }
+            padding: 20px;
+            flex-grow: 1;
+        }
+    }
+    &__buttons{  
+         
+        display: flex; 
+        justify-content: center;
+        align-items: center;
+        
+        margin: 10px auto;
+        @include sm {
+            margin: 10px 10px 10px auto;
+        }
+        @include lg{
+            margin: 10px;
+        }
+     
+        .button {
+            margin: 10px;
+            flex-grow: 0;
+            padding: 10px 20px;
+            @include sm{
+                padding: 10px 30px;
+            }
+             
+        }
+    }
 }
